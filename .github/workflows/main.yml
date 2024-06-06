@@ -1,0 +1,47 @@
+name: Car Price Prediction FastAPI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      APP_NAME: ${{secrets.APP_NAME}}
+      APP_VERSION: ${{secrets.APP_VERSION}}
+      APP_API_PREFIX: ${{secrets.APP_API_PREFIX}}
+
+      API_KEY: ${{secrets.API_KEY}}
+      IS_DEBUG: ${{secrets.IS_DEBUG}}
+      DEFAULT_MODEL_PATH: ${{secrets.DEFAULT_MODEL_PATH}}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install Poetry
+        run: apt-get install -y python3-poetry
+
+      - name: Create virtual environment
+        run: poetry shell
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Print debugging information
+        run: |
+          echo "Python Version: $(python --version)"
+          echo "Working Directory: $(pwd)"
+          echo "Contents of Working Directory: $(ls -l)"
+
+      - name: Run linting
+        run: ./scripts/linting.sh
+
+      - name: Run testing
+        run: ./scripts/test.sh
