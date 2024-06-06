@@ -42,17 +42,8 @@ jobs:
       - name: Install dependencies
         run: poetry install
 
-      - name: Activate virtual environment
-        run: poetry shell
-
-      - name: Print debugging information
-        run: |
-          echo "Python Version: $(python --version)"
-          echo "Working Directory: $(pwd)"
-          echo "Contents of Working Directory: $(ls -l)"
-
       - name: Run linting
-        run: ./scripts/linting.sh
+        run: poetry run ./scripts/linting.sh
 
       - name: Run testing
-        run: ./scripts/test.sh
+        run: poetry run ./scripts/test.sh
