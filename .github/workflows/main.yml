@@ -26,10 +26,10 @@ jobs:
           python-version: 3.11
 
       - name: Install Poetry
-        run: apt-get install -y python3-poetry
+        run: pip install poetry
 
       - name: Create virtual environment
-        run: poetry shell
+        run: python -m poetry shell
 
       - name: Install dependencies
         run: poetry install
