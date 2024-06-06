@@ -7,14 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      APP_NAME: ${{secrets.APP_NAME}}
-      APP_VERSION: ${{secrets.APP_VERSION}}
-      APP_API_PREFIX: ${{secrets.APP_API_PREFIX}}
-
-      API_KEY: ${{secrets.API_KEY}}
-      IS_DEBUG: ${{secrets.IS_DEBUG}}
-      DEFAULT_MODEL_PATH: ${{secrets.DEFAULT_MODEL_PATH}}
 
     steps:
       - name: Checkout code
@@ -41,6 +33,18 @@ jobs:
 
       - name: Install dependencies
         run: poetry install
+
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo APP_NAME=${{secrets.APP_NAME}} >> .env
+          echo APP_VERSION=${{secrets.APP_VERSION}} >> .env
+          echo APP_API_PREFIX=${{secrets.APP_API_PREFIX}} >> .env
+
+          echo API_KEY=${{secrets.API_KEY}} >> .env
+          echo IS_DEBUG=${{secrets.IS_DEBUG}} >> .env
+          echo DEFAULT_MODEL_PATH=${{secrets.DEFAULT_MODEL_PATH}} >> .env
+          cat .env
 
       - name: Run linting
         run: poetry run ./scripts/linting.sh
