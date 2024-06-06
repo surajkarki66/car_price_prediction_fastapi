@@ -29,7 +29,7 @@ jobs:
         run: pip install poetry
 
       - name: Create virtual environment
-        run: python -m poetry shell
+        run: poetry shell
 
       - name: Install dependencies
         run: poetry install
